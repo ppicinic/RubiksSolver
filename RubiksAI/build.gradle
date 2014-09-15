@@ -1,11 +1,11 @@
 apply plugin: 'java'
 apply plugin: 'application'
-mainClassName = 'rubiks.Main'
+mainClassName = 'rubiks.Solvable'
 
-sourceCompatibility = 1.5
 version = '1.0'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
