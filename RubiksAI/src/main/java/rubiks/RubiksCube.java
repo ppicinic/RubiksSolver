@@ -5,7 +5,7 @@ package rubiks;
  */
 public class RubiksCube {
 
-    // Face Color values
+    // Face Color values constants
     public static final int _RED = 1;
     public static final int _YELLOW = 2;
     public static final int _ORANGE = 3;
@@ -13,26 +13,26 @@ public class RubiksCube {
     public static final int _GREEN = 5;
     public static final int _BLUE = 6;
 
-    // corners first = 8, 9, 11, 10, 10, 11, 13, 12
 
-    /*
 
-    10    11
-    8     9
-
-    12    13
-    10    11
-     */
     // member fields
+    // save cube as an array of bytes
     private byte[] faces;
 
+    /**
+     * Default constructor
+     */
     public RubiksCube(){
         faces = new byte[54];
     }
 
+    /**
+     * Constructor that takes in a string representation of the cube
+     * @param text the string representation of the cube
+     */
     public RubiksCube(String text){
         faces = new byte[54];
-        for(int i = 0; i < text.length() && i < 56; i++){
+        for(int i = 0; i < text.length() && i < 54; i++){
             byte b = 0;
             char c = text.charAt(i);
             switch (c){
@@ -59,6 +59,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * Copy constructor of the cube
+     * @param array the cube representation
+     */
     public RubiksCube(byte[] array){
         if(array.length != 54){
             throw new RuntimeException("Invalid state representation");
@@ -66,10 +70,18 @@ public class RubiksCube {
         this.faces = array.clone();
     }
 
+    /**
+     * Gets the cubes internal state
+     * @return the byte array cube state
+     */
     public byte[] getState(){
         return faces;
     }
 
+    /**
+     * Rotate the top face clockwise
+     * @param turns number of turns to rotate
+     */
     public void rotateU(int turns){
         for(int i = 0; i < turns; i++) {
             // shift face corners first
@@ -105,6 +117,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * Rotate bottom face clockwise
+     * @param turns number of turns to rotate
+     */
     public void rotateD(int turns){
         for(int i = 0; i < turns; i++) {
             // shift face corners first
@@ -140,6 +156,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * Turn the front face clockwise
+     * @param turns number of turns to rotate
+     */
     public void rotateF(int turns){
         for(int i = 0; i < turns; i++) {
             // shift face corners first
@@ -175,6 +195,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * rotate the back face clockwise
+     * @param turns number of turns to rotate
+     */
     public void rotateB(int turns){
         for(int i = 0; i < turns; i++) {
             // shift face corners first
@@ -210,6 +234,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * rotate the left face clockwise
+     * @param turns number of turns to rotate
+     */
     public void rotateL(int turns){
         for(int i = 0; i < turns; i++) {
             // shift face corners first
@@ -245,6 +273,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * rotate the right face clockwise
+     * @param turns number of turns to rotate
+     */
     public void rotateR(int turns){
         for(int i = 0; i < turns; i++) {
             // shift face corners first
@@ -280,6 +312,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * Rotate the top bottom middle ring
+     * @param turns the number of times to rotate
+     */
     private void rotateUD(int turns){
         for(int i = 0; i < turns; i++) {
             //shift outside corner1
@@ -303,6 +339,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * rotate the front back middle ring
+     * @param turns the number of times to rotate
+     */
     private void rotateFB(int turns){
         for(int i = 0; i < turns; i++) {
             //shift outside corner1
@@ -326,6 +366,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * rotate the left right middle ring
+     * @param turns the number of times to rotate
+     */
     private void rotateLR(int turns){
         for(int i = 0; i < turns; i++) {
             //shift outside corner1
@@ -349,6 +393,10 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * turn the cube so red is at the top and yellow at the front
+     * this does a full turn of the cube, it does not change its state
+     */
     private void reset(){
         if(faces[19] == _RED){
             rotateF(1);
@@ -387,10 +435,18 @@ public class RubiksCube {
         }
     }
 
+    /**
+     * Validate all the validation parities on the cube
+     * @return true if valid, false otherwise
+     */
     public boolean validate(){
         return validateSpaces() && validatePermutationParity() && validateEdges() && validateCorners() && validateMiddle();
     }
 
+    /**
+     * Validates that the orientation of the middle cubes are in the right order
+     * @return true if valid, false otherwise
+     */
     private boolean validateMiddle(){
         RubiksCube r = this.clone();
         r.reset();
@@ -398,14 +454,27 @@ public class RubiksCube {
                 && r.faces[25] == _BLUE && r.faces[40] == _ORANGE && r.faces[49] == _WHITE;
     }
 
+    /**
+     * Validates both corner tests
+     * @return true if valid, false otherwise
+     */
     private boolean validateCorners(){
         return validateCornerCount() && validateCornerParity();
     }
 
+    /**
+     * Validates the permutation sequence of edge and corner cubes
+     * @return true if valid, false otherwise
+     */
     public boolean validatePermutationParity(){
         return (edgePermutations() + cornerPermutations()) % 2 == 0;
     }
 
+    /**
+     * Counts the number of edge inversions
+     * Note: this can be optimized on space to handle one off error hack
+     * @return true if valid, false otherwise
+     */
     private int edgePermutations(){
         int[] array = new int[13];
         int permutations = 0;
@@ -444,6 +513,11 @@ public class RubiksCube {
         return permutations;
     }
 
+    /**
+     * Counts the number of inversions of corner cubes
+     * Note: this can also be optimized
+     * @return true if valid, false otherwise
+     */
     private int cornerPermutations(){
         int[] array = new int[9];
         int permutations = 0;
@@ -475,6 +549,10 @@ public class RubiksCube {
         return permutations;
     }
 
+    /**
+     * Validates that the total number of each color is 9
+     * @return true if valid, false otherwise
+     */
     private boolean validateSpaces(){
         int red = 0;
         int blue = 0;
@@ -510,6 +588,10 @@ public class RubiksCube {
         return red == 9 && blue == 9 && white == 9 && yellow == 9 && orange == 9 && green == 9;
     }
 
+    /**
+     * Validate the number of corners existing are only one of each
+     * @return true if valid, false otherwise
+     */
     private boolean validateCornerCount(){
         int sum = 0;
         long product = 1;
@@ -549,6 +631,13 @@ public class RubiksCube {
         return sum == 36 && product == 40320;
     }
 
+    /**
+     * Gets a hardcoded value of the corner cube
+     * @param x position 1 of the corner cube
+     * @param y position 2 of the corner cube
+     * @param z position 3 of the corner cube
+     * @return the value of the corner cube
+     */
     private int getCornerCountVal(int x, int y, int z){
         if(faces[x] == _RED || faces[y] == _RED || faces[z] == _RED ){
             if(faces[x] == _YELLOW || faces[y] == _YELLOW || faces[z] == _YELLOW){
@@ -582,6 +671,11 @@ public class RubiksCube {
         return 0;
     }
 
+    /**
+     * Validate Corner parity of the cube
+     * Note: method is public for testing purposes
+     * @return true if valid, false otherwise
+     */
     public boolean validateCornerParity(){
         int total = 0;
 
@@ -600,10 +694,18 @@ public class RubiksCube {
         return total % 3 == 0;
 }
 
+    /**
+     * Validate both Edge cube tests
+     * @return true if valid, false otherwise
+     */
     public boolean validateEdges(){
         return validateEdgeCount() && validateEdgeParity();
     }
 
+    /**
+     * Validates the edge parity
+     * @return true if valid, false otherwise
+     */
     private boolean validateEdgeParity(){
         int total = 0;
 
@@ -634,6 +736,10 @@ public class RubiksCube {
         return total % 2 == 0;
     }
 
+    /**
+     * Validates the existence of the edge cubes
+     * @return true if valid, false otherwise
+     */
     private boolean validateEdgeCount(){
         int sum = 0;
         long product = 1;
@@ -692,6 +798,12 @@ public class RubiksCube {
         return sum == 78 && product == 479001600;
     }
 
+    /**
+     * Gets a hardcoded value of the edge cube
+     * @param x position 1 of the edge cube
+     * @param y position 2 of the edge cube
+     * @return the value of the edge cube
+     */
     private int getEdgeCountValue(int x, int y){
         if(faces[x] == _RED || faces[y] == _RED){
             if(faces[x] == _YELLOW || faces[y] == _YELLOW){
@@ -729,6 +841,13 @@ public class RubiksCube {
         return 0;
     }
 
+    /**
+     * Gets the parity value of the corner cube
+     * @param x position 1 of the corner cube
+     * @param y position 2 of the corner cube
+     * @param z position 3 of the corner cube
+     * @return the parity value
+     */
     private int getCornerValue(int x, int y, int z){
         if(faces[x] == _RED || faces[x] == _ORANGE){
             return 0;
@@ -740,6 +859,12 @@ public class RubiksCube {
         return -1;
     }
 
+    /**
+     * Gets the parity value of the edge cube
+     * @param x position 1 of the edge cube
+     * @param y position 2 of the edge cube
+     * @return the parity value
+     */
     private int getEdgeValue(int x, int y){
         switch(faces[x]){
             case _RED:
@@ -782,6 +907,10 @@ public class RubiksCube {
         return 0;
     }
 
+    /**
+     * Prints out the cubes state
+     * @return the cube state string representation
+     */
     public String toString(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < 9; i++){
@@ -806,6 +935,11 @@ public class RubiksCube {
         return sb.toString();
     }
 
+    /**
+     * Gets the character value for a specific face
+     * @param b face integer value in state
+     * @return the character representation of the face
+     */
     private char charVal(byte b){
         char c = ' ';
         switch(b){
@@ -833,16 +967,25 @@ public class RubiksCube {
         return c;
     }
 
+    /**
+     * Creates a clone of the cube that is mutable
+     * @return a cloned cube
+     */
     public RubiksCube clone(){
         return new RubiksCube(faces.clone());
     }
 
+    /**
+     * Compares two cubes and if their states are the same
+     * @param r the cube being compared to
+     * @return true if the cubes are the same state, false otherwise
+     */
     public boolean equals(RubiksCube r){
         RubiksCube t1 = this.clone();
         RubiksCube t2 = r.clone();
         t1.reset();
         t2.reset();
-        for(int i = 0; i < 56; i++){
+        for(int i = 0; i < 54; i++){
             if(t1.faces[i] != t2.faces[i]){
                 return false;
             }
