@@ -522,15 +522,15 @@ public class RubiksCube {
         int[] array = new int[9];
         int permutations = 0;
         //
-        array[1] = getCornerCountVal(6, 11, 12);
-        array[2] = getCornerCountVal(8, 14, 15);
+        array[1] = getCornerCountVal(6, 12, 11);
+        array[2] = getCornerCountVal(8, 15, 14);
         array[3] = getCornerCountVal(0, 9, 51);
-        array[4] = getCornerCountVal(2, 17, 53);
+        array[4] = getCornerCountVal(2, 53, 17);
 
-        array[5] = getCornerCountVal(42, 45, 27);
-        array[6] = getCornerCountVal(44, 47, 35);
-        array[7] = getCornerCountVal(36, 29, 30);
-        array[8] = getCornerCountVal(38, 32, 33);
+        array[7] = getCornerCountVal(42, 45, 27);
+        array[8] = getCornerCountVal(44, 35, 47);
+        array[5] = getCornerCountVal(36, 29, 30);
+        array[6] = getCornerCountVal(38, 32, 33);
 
         for(int i = 1; i < array.length; i++){
             if(array[i] != i){
@@ -596,7 +596,7 @@ public class RubiksCube {
         int sum = 0;
         long product = 1;
 
-        int t = getCornerCountVal(6, 11, 12);
+        int t = getCornerCountVal(6, 12, 11);
         sum += t;
         product *= t;
 
@@ -604,11 +604,11 @@ public class RubiksCube {
         sum += t;
         product *= t;
 
-        t = getCornerCountVal(2, 17, 53);
+        t = getCornerCountVal(2, 53, 17);
         sum += t;
         product *= t;
 
-        t = getCornerCountVal(8, 14, 15);
+        t = getCornerCountVal(8, 15, 14);
         sum += t;
         product *= t;
 
@@ -624,7 +624,7 @@ public class RubiksCube {
         sum += t;
         product *= t;
 
-        t = getCornerCountVal(44, 47, 35);
+        t = getCornerCountVal(44, 35, 47);
         sum += t;
         product *= t;
 
@@ -639,35 +639,144 @@ public class RubiksCube {
      * @return the value of the corner cube
      */
     private int getCornerCountVal(int x, int y, int z){
-        if(faces[x] == _RED || faces[y] == _RED || faces[z] == _RED ){
-            if(faces[x] == _YELLOW || faces[y] == _YELLOW || faces[z] == _YELLOW){
-                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+        if(faces[x] == _RED){
+            if(faces[y] == _YELLOW){
+                if(faces[z] == _GREEN){
                     return 1;
-                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
-                    return 2;
                 }
-            }else if(faces[x] == _WHITE || faces[y] == _WHITE || faces[z] == _WHITE){
-                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+            }else if(faces[y] == _GREEN){
+                if(faces[z] == _WHITE){
                     return 3;
-                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
+                }
+            }else if(faces[y] == _WHITE){
+                if(faces[z] == _BLUE){
                     return 4;
                 }
+            }else if(faces[y] == _BLUE){
+                if(faces[z] == _YELLOW){
+                    return 2;
+                }
             }
-        }else if(faces[x] == _ORANGE || faces[y] == _ORANGE || faces[z] == _ORANGE){
-            if(faces[x] == _YELLOW || faces[y] == _YELLOW || faces[z] == _YELLOW){
-                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+        }else if(faces[y] == _RED){
+            if(faces[z] == _YELLOW){
+                if(faces[x] == _GREEN){
+                    return 1;
+                }
+            }else if(faces[z] == _GREEN){
+                if(faces[x] == _WHITE){
+                    return 3;
+                }
+            }else if(faces[z] == _WHITE){
+                if(faces[x] == _BLUE){
+                    return 4;
+                }
+            }else if(faces[z] == _BLUE){
+                if(faces[x] == _YELLOW){
+                    return 2;
+                }
+            }
+        }else if(faces[z] == _RED){
+            if(faces[x] == _YELLOW){
+                if(faces[y] == _GREEN){
+                    return 1;
+                }
+            }else if(faces[x] == _GREEN){
+                if(faces[y] == _WHITE){
+                    return 3;
+                }
+            }else if(faces[x] == _WHITE){
+                if(faces[y] == _BLUE){
+                    return 4;
+                }
+            }else if(faces[x] == _BLUE){
+                if(faces[y] == _YELLOW){
+                    return 2;
+                }
+            }
+        }else if(faces[x] == _ORANGE){
+            if(faces[y] == _GREEN){
+                if(faces[z] == _YELLOW){
                     return 5;
-                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
+                }
+            }else if(faces[y] == _WHITE){
+                if(faces[z] == _GREEN){
+                    return 7;
+                }
+            }else if(faces[y] == _BLUE){
+                if(faces[z] == _WHITE){
+                    return 8;
+                }
+            }else if(faces[y] == _YELLOW){
+                if(faces[z] == _BLUE){
                     return 6;
                 }
-            }else if(faces[x] == _WHITE || faces[y] == _WHITE || faces[z] == _WHITE){
-                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+            }
+        }else if(faces[y] == _ORANGE){
+            if(faces[z] == _GREEN){
+                if(faces[x] == _YELLOW){
+                    return 5;
+                }
+            }else if(faces[z] == _WHITE){
+                if(faces[x] == _GREEN){
                     return 7;
-                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
+                }
+            }else if(faces[z] == _BLUE){
+                if(faces[x] == _WHITE){
                     return 8;
+                }
+            }else if(faces[z] == _YELLOW){
+                if(faces[x] == _BLUE){
+                    return 6;
+                }
+            }
+        }else if(faces[z] == _ORANGE){
+            if(faces[x] == _GREEN){
+                if(faces[y] == _YELLOW){
+                    return 5;
+                }
+            }else if(faces[x] == _WHITE){
+                if(faces[y] == _GREEN){
+                    return 7;
+                }
+            }else if(faces[x] == _BLUE){
+                if(faces[y] == _WHITE){
+                    return 8;
+                }
+            }else if(faces[x] == _YELLOW){
+                if(faces[y] == _BLUE){
+                    return 6;
                 }
             }
         }
+//        if(faces[x] == _RED || faces[y] == _RED || faces[z] == _RED ){
+//            if(faces[x] == _YELLOW || faces[y] == _YELLOW || faces[z] == _YELLOW){
+//                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+//                    return 1;
+//                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
+//                    return 2;
+//                }
+//            }else if(faces[x] == _WHITE || faces[y] == _WHITE || faces[z] == _WHITE){
+//                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+//                    return 3;
+//                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
+//                    return 4;
+//                }
+//            }
+//        }else if(faces[x] == _ORANGE || faces[y] == _ORANGE || faces[z] == _ORANGE){
+//            if(faces[x] == _YELLOW || faces[y] == _YELLOW || faces[z] == _YELLOW){
+//                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+//                    return 5;
+//                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
+//                    return 6;
+//                }
+//            }else if(faces[x] == _WHITE || faces[y] == _WHITE || faces[z] == _WHITE){
+//                if(faces[x] == _GREEN || faces[y] == _GREEN || faces[z] == _GREEN){
+//                    return 7;
+//                }else if(faces[x] == _BLUE || faces[y] == _BLUE || faces[z] == _BLUE){
+//                    return 8;
+//                }
+//            }
+//        }
         return 0;
     }
 
@@ -680,16 +789,16 @@ public class RubiksCube {
         int total = 0;
 
         // top face
-        total += getCornerValue(0, 9, 51);
-        total += getCornerValue(2, 53, 17);
-        total += getCornerValue(6, 12, 11);
-        total += getCornerValue(8, 15, 14);
+        total += getCornerValue(0, 51, 9);
+        total += getCornerValue(2, 17, 53);
+        total += getCornerValue(6, 11, 12);
+        total += getCornerValue(8, 14, 15);
 
         // bottom face
-        total += getCornerValue(36, 29, 30);
-        total += getCornerValue(38, 32, 33);
-        total += getCornerValue(42, 45, 27);
-        total += getCornerValue(44, 35, 47);
+        total += getCornerValue(36, 30, 29);
+        total += getCornerValue(38, 33, 32);
+        total += getCornerValue(42, 27, 45);
+        total += getCornerValue(44, 47, 35);
 
         return total % 3 == 0;
 }
