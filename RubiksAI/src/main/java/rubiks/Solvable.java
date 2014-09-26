@@ -15,7 +15,6 @@ public class Solvable {
 
     public static void main(String[] args){
         RubiksCube r;
-        RubiksCube t;
         if(args.length == 1){
             StringBuilder sb = new StringBuilder();
             String filename = args[0];
@@ -36,71 +35,30 @@ public class Solvable {
                 System.out.println("File not found or corrupted.");
             }
             String result = sb.toString();
-
-            r = new RubiksCube(sb.toString());
-            // start
-
-//            Random random = new Random(System.currentTimeMillis());
-//            for(int i = 0; i < 2000; i++) {
-//                RubiksCube a = r.clone();
-//                StringBuilder sbb = new StringBuilder();
-//                for (int j = 0; j < 20; j++) {
-//                    int x = random.nextInt(6);
-//                    int y = random.nextInt(3);
-//                    y++;
-//                    switch(x){
-//                        case 0:
-//                            a.rotateU(y);
-//                            sbb.append("U" + y);
-//                            break;
-//                        case 1:
-//                            sbb.append("D" + y);
-//                            a.rotateD(y);
-//                            break;
-//                        case 2:
-//                            a.rotateF(y);
-//                            sbb.append("F" + y);
-//                            break;
-//                        case 3:
-//                            a.rotateB(y);
-//                            sbb.append("B" + y);
-//                            break;
-//                        case 4:
-//                            a.rotateL(y);
-//                            sbb.append("L" + y);
-//                            break;
-//                        case 5:
-//                            a.rotateR(y);
-//                            sbb.append("R" + y);
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                    if(!a.validate()){
-//                        System.out.println("failed on:\n" + sbb.toString() + "\n" + a);
-//                    }
-//                }
-//            }
-            //end
-
-//            r.rotateR(3);
-//            r.rotateL(1);
-//            r.rotateB(3);
-//            r.rotateU(2);
-//            r.rotateB(3);
-//            r.rotateF(3);
-//            r.rotateB(1);
-//            r.rotateD(3);
-            System.out.println(r);
-            System.out.println(r.validate());
+            if(result.length() == 54) {
+                r = new RubiksCube(sb.toString());
+                System.out.println(r.validate());
+            }else{
+                System.out.println("false");
+            }
         }
     }
 
+    /**
+     * Checks if a character is valid as an input for the cube
+     * @param c character to test
+     * @return true if valid, otherwise false
+     */
     public static boolean isValid(char c){
         return c == 'R' || c == 'r' || c == 'O' || c == 'o'  || c == 'Y' || c == 'y' || c == 'G'
                 || c == 'g' || c == 'B' || c == 'b' || c == 'W' || c == 'w';
     }
 
+    /**
+     * Creates a cube from a filename
+     * @param filename file that has the Rubik's cube state
+     * @return the generated rubik's cube
+     */
     public static RubiksCube createCube(String filename){
         StringBuilder sb = new StringBuilder();
         try {

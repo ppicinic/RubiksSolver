@@ -440,7 +440,7 @@ public class RubiksCube {
      * @return true if valid, false otherwise
      */
     public boolean validate(){
-        return validateSpaces() && validatePermutationParity() && validateEdges() && validateCorners() && validateMiddle();
+        return validateSpaces() &&  validateEdges() && validateCorners() && validatePermutationParity() && validateMiddle();
     }
 
     /**
